@@ -1,0 +1,6 @@
+name: loud
+description: A procedural complex for madmen
+version: 1.0.1
+homepage: https://github.com/ArcaneArts/loud
+environment:
+  sdk: '>=2.18.4 <3.0.0'
