@@ -1,8 +1,7 @@
-import 'package:loud/noise/noise_plane.dart';
-import 'package:loud/noise/provider/perlin.dart';
+import 'package:loud/loud.dart';
 
 void main() async {
-  NoisePlane plane = PerlinProvider(seed: 1234);
+  NoisePlane plane = PerlinProvider(seed: 1234).scale(0.1);
 
   List<double> noise =
       List.generate(128, (index) => plane.noise1(index.toDouble()));
@@ -20,5 +19,5 @@ void main() async {
     print(l);
   }
 
-  await Future.delayed(Duration(seconds: 10));
+  await Future.delayed(Duration(milliseconds: 1));
 }

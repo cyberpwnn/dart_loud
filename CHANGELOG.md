@@ -1,3 +1,7 @@
+## 1.0.2
+
+* Cached Providers
+
 ## 1.0.1
 
 * No need for flutter

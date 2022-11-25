@@ -11,6 +11,19 @@ class D3 {
   const D3(this.x, this.y, this.z);
 }
 
+class Vector2 {
+  final double x;
+  final double y;
+  const Vector2(this.x, this.y);
+  double getX() => x;
+  double getY() => y;
+}
+
+const int HASH_A = 25214903917;
+const int HASH_C = 11;
+const int HASH_M = 0x1000000000000;
+const double POINT_SPREAD = 0.3;
+const double CURL_DX = 0.0001;
 const int LONG_MIN_VALUE = 0x8000000000000000;
 const int LONG_MAX_VALUE = 0x7fffffffffffffff;
 const List<double> GRAD_1D = [-1, 0, 1];
