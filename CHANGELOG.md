@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Provider style cache providers
+
 ## 1.0.2
 
 * Cached Providers

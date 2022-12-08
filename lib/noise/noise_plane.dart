@@ -2,14 +2,16 @@ import 'package:loud/interpolator/cubic.dart';
 import 'package:loud/interpolator/hermite.dart';
 import 'package:loud/interpolator/linear.dart';
 import 'package:loud/interpolator/starcast.dart';
+import 'package:loud/noise/provider/cache.dart';
 import 'package:loud/noise/provider/cellularizer.dart';
 import 'package:loud/noise/provider/exponent.dart';
 import 'package:loud/noise/provider/fitted.dart';
 import 'package:loud/noise/provider/octave.dart';
 import 'package:loud/noise/provider/scaled.dart';
 import 'package:loud/noise/provider/warped.dart';
+import 'package:loud/util/double_cache.dart';
 
-class NoisePlane {
+class NoisePlane implements CacheIndexProvider<double> {
   double noise1(double x) => noise3(x, 0, 0);
 
   double noise2(double x, double y) => noise3(x, y, 0);
@@ -24,6 +26,23 @@ class NoisePlane {
     return CubicInterpolator(
       input: this,
       scale: scale,
+    );
+  }
+
+  CacheProvider cached({
+    required int width,
+    required int height,
+    CacheCoordinatePlane coordinatePlane = CacheCoordinatePlane.mirrored,
+    bool lazy = false,
+    double? initialValue,
+  }) {
+    return CacheProvider(
+      width: width,
+      height: height,
+      generator: this,
+      coordinatePlane: coordinatePlane,
+      initialValue: initialValue,
+      lazy: lazy,
     );
   }
 
@@ -152,4 +171,7 @@ class NoisePlane {
         (d3 / msb).round().toString() +
         "/ms");
   }
+
+  @override
+  double provideCacheIndex(int x, int y) => noise2(x.toDouble(), y.toDouble());
 }

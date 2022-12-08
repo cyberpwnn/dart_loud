@@ -2,16 +2,27 @@ import 'package:loud/noise/noise_plane.dart';
 import 'package:loud/util/double_cache.dart';
 
 class CacheProvider extends NoisePlane {
-  late final DoubleCache cache;
+  late final ProvidingArrayCache<double> cache;
 
-  CacheProvider(
-      {required int width,
-      required int height,
-      required NoisePlane generator}) {
-    cache = DoubleCache(width: width, height: height);
-    for (int x = 0; x < width; x++) {
-      for (int y = 0; y < height; y++) {
-        cache.set(x, y, generator.noise2(x.toDouble(), y.toDouble()));
+  CacheProvider({
+    required int width,
+    required int height,
+    required NoisePlane generator,
+    CacheCoordinatePlane coordinatePlane = CacheCoordinatePlane.normal,
+    bool lazy = false,
+    double? initialValue,
+  }) {
+    cache = DoubleArrayCacheProvider(
+        width: width,
+        height: height,
+        provider: this,
+        initialValue: initialValue,
+        coordinatePlane: coordinatePlane);
+    if (!lazy) {
+      for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+          cache.set(x, y, generator.noise2(x.toDouble(), y.toDouble()));
+        }
       }
     }
   }

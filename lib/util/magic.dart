@@ -1,3 +1,17 @@
+import 'dart:isolate';
+
+typedef Future<O> IsolateComputer<I, O>(I i);
+
+Future<O> computeIsolate<I, O>(IsolateComputer<I, O> isolateComputer, I input) {
+  final p = ReceivePort();
+  void runner(List<dynamic> input) =>
+      isolateComputer(input[1]).then((value) => Isolate.exit(input[0], value));
+  Isolate.spawn<List<dynamic>>(runner, [p.sendPort, input]);
+  return p.first.then((value) => value as O);
+}
+
+Future<void> compute<I>(I t) async {}
+
 class D2 {
   final double x;
   final double y;
